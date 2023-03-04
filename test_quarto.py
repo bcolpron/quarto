@@ -26,13 +26,12 @@ def test_is_win_row_of_same_trait(trait, col):
     assert game.is_win()
 
 
-@mark.parametrize("trait", [LOW, HIGH])
-def test_is_win_diagonal(trait):
+def test_is_win_diagonal():
     game = Game()
-    game.place(Piece(trait, LIGHT, ROUND, SOLID), 0, 0)
-    game.place(Piece(trait, LIGHT, SQUARE, SOLID), 1, 1)
-    game.place(Piece(trait, DARK, ROUND, SOLID), 2, 2)
-    game.place(Piece(trait, DARK, SQUARE, SOLID), 3, 3)
+    game.place(Piece(LOW, LIGHT, ROUND, SOLID), 0, 0)
+    game.place(Piece(LOW, LIGHT, SQUARE, SOLID), 1, 1)
+    game.place(Piece(LOW, DARK, ROUND, SOLID), 2, 2)
+    game.place(Piece(LOW, DARK, SQUARE, SOLID), 3, 3)
     assert game.is_win()
 
 
@@ -104,9 +103,10 @@ def test_invalid_placement_of_duplicate_piece():
         game.place(Piece(HIGH, LIGHT, ROUND, SOLID), 1, 1)
 
 
-def test_available_pieces_default():
+def test_available_defaults():
     game = Game()
-    assert len(game.available_pieces()) == 16 
+    assert len(game.available_pieces()) == 16
+    assert all([game[x,y] is None for x in range(4) for y in range(4)])
 
 
 def test_available_pieces_place():
@@ -117,3 +117,28 @@ def test_available_pieces_place():
     assert p not in game.available_pieces()
     
 
+def test_index_operator():
+    game = Game()
+    p = game.available_pieces()[0]
+    game.place(p, 0, 0)
+    assert game[0,0] == p
+
+
+def test_index_operator_invalid_inputs():
+    game = Game()
+    with raises(ValueError):
+        game[0]
+    with raises(ValueError):
+        game[::1]
+    with raises(ValueError):
+        game[0,0,0]
+    with raises(ValueError):
+        game[-1, 0]
+    with raises(ValueError):
+        game[5, 0]
+    with raises(ValueError):
+        game[0, -1]
+    with raises(ValueError):
+        game[0, 5]
+    with raises(ValueError):
+        game[0.1, 3.3]

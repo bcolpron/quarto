@@ -78,6 +78,13 @@ class Game:
     def available_pieces(self):
         return self._available_pieces.copy()
 
+    def __getitem__(self, key):
+        if not isinstance(key, tuple) or len(key) != 2 \
+            or not isinstance(key[0], int) or not isinstance(key[1], int) \
+            or not (0 <= key[0] < 4 and 0 <= key[1] < 4):
+            raise ValueError("index must be 2-tuple of int in [0, 3]")
+        return self._board[key[0]][key[1]]
+
     def is_win(self):
         for trait in TRAITS:
             def matches(cell):
@@ -101,3 +108,5 @@ class Game:
             raise ValueError("piece already present")
         self._board[row][col] = piece
         self._available_pieces.remove(piece)
+
+
