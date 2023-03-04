@@ -102,3 +102,18 @@ def test_invalid_placement_of_duplicate_piece():
     game.place(Piece(HIGH, LIGHT, ROUND, SOLID), 0, 0)
     with raises(ValueError):
         game.place(Piece(HIGH, LIGHT, ROUND, SOLID), 1, 1)
+
+
+def test_available_pieces_default():
+    game = Game()
+    assert len(game.available_pieces()) == 16 
+
+
+def test_available_pieces_place():
+    game = Game()
+    p = Piece(HIGH, LIGHT, ROUND, SOLID)
+    game.place(p, 0, 0)
+    assert len(game.available_pieces()) == 15
+    assert p not in game.available_pieces()
+    
+

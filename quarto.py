@@ -51,7 +51,7 @@ class Piece:
         t = [Trait(x).name for x in TRAITS if self.has(x)]
         return f"Piece({t[0]}, {t[1]}, {t[2]}, {t[3]})"
 
-PIECES = [
+PIECES = (
     Piece(HIGH, LIGHT, ROUND,  SOLID  ),
     Piece(HIGH, LIGHT, ROUND,  HOLLOW ),
     Piece(HIGH, LIGHT, SQUARE, SOLID  ),
@@ -67,12 +67,16 @@ PIECES = [
     Piece(LOW,  DARK,  ROUND,  SOLID  ),
     Piece(LOW,  DARK,  ROUND,  HOLLOW ),
     Piece(LOW,  DARK,  SQUARE, SOLID  ),
-    Piece(LOW,  DARK,  SQUARE, HOLLOW ) ]
+    Piece(LOW,  DARK,  SQUARE, HOLLOW ) )
 
 class Game:
 
     def __init__(self):
         self._board = [[None]*4, [None]*4, [None]*4, [None]*4]
+        self._available_pieces = list(PIECES)
+
+    def available_pieces(self):
+        return self._available_pieces.copy()
 
     def is_win(self):
         for trait in TRAITS:
@@ -96,3 +100,4 @@ class Game:
         if any([self._board[r][c] == piece for r in range(4) for c in range(4)]):
             raise ValueError("piece already present")
         self._board[row][col] = piece
+        self._available_pieces.remove(piece)
