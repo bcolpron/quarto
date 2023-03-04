@@ -1,3 +1,4 @@
+from random import choice
 from enum import Enum, IntEnum
 from functools import reduce
 
@@ -69,7 +70,7 @@ PIECES = (
     Piece(LOW,  DARK,  SQUARE, SOLID  ),
     Piece(LOW,  DARK,  SQUARE, HOLLOW ) )
 
-class Game:
+class Board:
 
     def __init__(self):
         self._board = [[None]*4, [None]*4, [None]*4, [None]*4]
@@ -84,6 +85,9 @@ class Game:
             or not (0 <= key[0] < 4 and 0 <= key[1] < 4):
             raise ValueError("index must be 2-tuple of int in [0, 3]")
         return self._board[key[0]][key[1]]
+
+    def is_end(self):
+        return len(self._available_pieces) == 0
 
     def is_win(self):
         for trait in TRAITS:
@@ -109,4 +113,33 @@ class Game:
         self._board[row][col] = piece
         self._available_pieces.remove(piece)
 
+class Game:
+    def __init__(self, player1_func, player2_func):
+        self._board = Board()
+        self._player1 = player1_func
+        self._player2 = player2_func
+        self._turn = choice(range(2))
 
+    def next_player(self):
+        self._turn = (self._turn + 1) % 2
+        return self._player1 if self._turn == 0 else self._player2
+
+    def play(self):
+        p = choice(self._board.available_pieces())
+        while(not self._board.is_end() and not self._board.is_win()):
+            player = self.next_player()
+            pos, p = player.play(p, self._board)
+            self._board.place(p, *pos)
+        if self._board.is_win():
+            print(f"player {player.name} wins")
+        else:
+            print("draw")
+
+class Player:
+    def __init__(self, name, func):
+        self.name = name
+        self.play = func
+
+    @staticmethod
+    def from_module(mod):
+        return Player(mod.__name__, mod.play)
