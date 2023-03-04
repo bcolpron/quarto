@@ -20,9 +20,15 @@ class Piece:
             if t not in TRAITS:
                 raise ValueError("invalid piece traits")
         
+        if any(traits.count(x) > 1 for x in traits):
+            raise ValueError("invalid piece trait combo")
+
         self._traits = reduce(lambda x, y: x|y, traits)
 
-        if self.is_(HIGH) and self.is_(LOW):
+        if self.is_(HIGH) and self.is_(LOW) \
+            or self.is_(LIGHT) and self.is_(DARK) \
+            or self.is_(ROUND) and self.is_(SQUARE) \
+            or self.is_(SOLID) and self.is_(HOLLOW):
             raise ValueError("invalid trait combination")
 
     def is_(self, trait):
@@ -32,22 +38,22 @@ class Piece:
         return piece is not None and self._traits == piece._traits
 
 PIECES = [
-    Piece(HIGH , LIGHT , ROUND  , SOLID  ),
-    Piece(HIGH , LIGHT , ROUND  , HOLLOW ),
-    Piece(HIGH , LIGHT , SQUARE , SOLID  ),
-    Piece(HIGH , LIGHT , SQUARE , HOLLOW ),
-    Piece(HIGH , DARK  , ROUND  , SOLID  ),
-    Piece(HIGH , DARK  , ROUND  , HOLLOW ),
-    Piece(HIGH , DARK  , SQUARE , SOLID  ),
-    Piece(HIGH , DARK  , SQUARE , HOLLOW ),
-    Piece(LOW  , LIGHT , ROUND  , SOLID  ),
-    Piece(LOW  , LIGHT , ROUND  , HOLLOW ),
-    Piece(LOW  , LIGHT , SQUARE , SOLID  ),
-    Piece(LOW  , LIGHT , SQUARE , HOLLOW ),
-    Piece(LOW  , DARK  , ROUND  , SOLID  ),
-    Piece(LOW  , DARK  , ROUND  , HOLLOW ),
-    Piece(LOW  , DARK  , SQUARE , SOLID  ),
-    Piece(LOW  , DARK  , SQUARE , HOLLOW ) ]
+    Piece(HIGH, LIGHT, ROUND,  SOLID  ),
+    Piece(HIGH, LIGHT, ROUND,  HOLLOW ),
+    Piece(HIGH, LIGHT, SQUARE, SOLID  ),
+    Piece(HIGH, LIGHT, SQUARE, HOLLOW ),
+    Piece(HIGH, DARK,  ROUND,  SOLID  ),
+    Piece(HIGH, DARK,  ROUND,  HOLLOW ),
+    Piece(HIGH, DARK,  SQUARE, SOLID  ),
+    Piece(HIGH, DARK,  SQUARE, HOLLOW ),
+    Piece(LOW,  LIGHT, ROUND,  SOLID  ),
+    Piece(LOW,  LIGHT, ROUND,  HOLLOW ),
+    Piece(LOW,  LIGHT, SQUARE, SOLID  ),
+    Piece(LOW,  LIGHT, SQUARE, HOLLOW ),
+    Piece(LOW,  DARK,  ROUND,  SOLID  ),
+    Piece(LOW,  DARK,  ROUND,  HOLLOW ),
+    Piece(LOW,  DARK,  SQUARE, SOLID  ),
+    Piece(LOW,  DARK,  SQUARE, HOLLOW ) ]
 
 class Game:
 

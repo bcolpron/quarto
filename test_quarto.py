@@ -32,6 +32,18 @@ def test_piece_ctor_invalid_traits(trait):
         Piece(LOW, LIGHT, ROUND, trait)
 
 
+@mark.parametrize("traits", [
+    [LOW, LOW, LOW, LOW],
+    [LOW, HIGH, ROUND, SOLID],
+    [DARK, LIGHT, ROUND, SOLID],
+    [LOW, LIGHT, ROUND, SQUARE],
+    [LOW, LIGHT, HOLLOW, SOLID],
+])
+def test_piece_ctor_invalid_piece(traits):
+    with raises(ValueError):
+        Piece(*traits)
+
+
 def test_piece_equality():
     assert Piece(HIGH, LIGHT, ROUND, SOLID) == Piece(HIGH, LIGHT, ROUND, SOLID)
     assert Piece(HIGH, LIGHT, ROUND, SOLID) != Piece(LOW, LIGHT, ROUND, SOLID)
