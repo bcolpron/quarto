@@ -76,11 +76,17 @@ class Game:
 
     def is_win(self):
         for trait in TRAITS:
-            for row in range(4):
-                if all([x is not None and x.is_(trait) for x in self._board[row]]):
+            def matches(cell):
+                return cell is not None and cell.is_(trait)
+
+            for i in range(4):
+                if all([matches(self._board[j][i]) for j in range(4)]):
                     return True
-            for col in range(4):
-                if all([self._board[row][col] is not None and self._board[row][col].is_(trait) for row in range(4)]):
+                if all([matches(self._board[i][j]) for j in range(4)]):
+                    return True
+            if all([matches(self._board[i][i]) for i in range(4)]):
+                    return True
+            if all([matches(self._board[3-i][i]) for i in range(4)]):
                     return True
         return False
 

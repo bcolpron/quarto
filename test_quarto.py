@@ -26,6 +26,25 @@ def test_is_win_row_of_same_trait(trait, col):
     assert game.is_win()
 
 
+@mark.parametrize("trait", [LOW, HIGH])
+def test_is_win_diagonal(trait):
+    game = Game()
+    game.place(Piece(trait, LIGHT, ROUND, SOLID), 0, 0)
+    game.place(Piece(trait, LIGHT, SQUARE, SOLID), 1, 1)
+    game.place(Piece(trait, DARK, ROUND, SOLID), 2, 2)
+    game.place(Piece(trait, DARK, SQUARE, SOLID), 3, 3)
+    assert game.is_win()
+
+
+def test_is_win_diagonal2():
+    game = Game()
+    game.place(Piece(LOW, LIGHT, ROUND, SOLID), 0, 3)
+    game.place(Piece(LOW, LIGHT, SQUARE, SOLID), 1, 2)
+    game.place(Piece(LOW, DARK, ROUND, SOLID), 2, 1)
+    game.place(Piece(LOW, DARK, SQUARE, SOLID), 3, 0)
+    assert game.is_win()
+
+
 @mark.parametrize("trait", [0, "whatever", None, {}, [], 10000])
 def test_piece_ctor_invalid_traits(trait):
     with raises(ValueError):
