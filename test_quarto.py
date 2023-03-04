@@ -53,6 +53,10 @@ def test_piece_equality_with_none():
     assert Piece(HIGH, LIGHT, ROUND, SOLID) != None
 
 
+def test_piece_stringification():
+    assert str(Piece(HIGH, LIGHT, ROUND, SOLID)) == "Piece(HIGH, LIGHT, ROUND, SOLID)"
+    assert repr(Piece(HIGH, LIGHT, ROUND, SOLID)) == "Piece(HIGH, LIGHT, ROUND, SOLID)"
+
 def test_high_pieces():
     assert len(PIECES) == 16
     for i in range(8):

@@ -1,17 +1,27 @@
-from enum import IntEnum
+from enum import Enum, IntEnum
 from functools import reduce
 
-LOW = 1
-HIGH = 2
-LIGHT = 4
-DARK = 8
-ROUND = 16
-SQUARE = 32
-SOLID = 64
-HOLLOW = 128
+class Trait(IntEnum):
+    LOW = 1
+    HIGH = 2
+    LIGHT = 4
+    DARK = 8
+    ROUND = 16
+    SQUARE = 32
+    SOLID = 64
+    HOLLOW = 128
+
+# For convenience
+LOW = Trait.LOW
+HIGH = Trait.HIGH
+LIGHT = Trait.LIGHT
+DARK = Trait.DARK
+ROUND = Trait.ROUND
+SQUARE = Trait.SQUARE
+SOLID = Trait.SOLID
+HOLLOW = Trait.HOLLOW
 
 TRAITS = [HIGH, LOW, LIGHT, DARK, ROUND, SQUARE, SOLID, HOLLOW]
-
 
 class Piece:
     def __init__(self, t1, t2, t3, t4):
@@ -36,6 +46,10 @@ class Piece:
 
     def __eq__(self, piece):
         return piece is not None and self._traits == piece._traits
+
+    def __repr__(self):
+        t = [Trait(x).name for x in TRAITS if self.is_(x)]
+        return f"Piece({t[0]}, {t[1]}, {t[2]}, {t[3]})"
 
 PIECES = [
     Piece(HIGH, LIGHT, ROUND,  SOLID  ),
