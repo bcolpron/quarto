@@ -79,15 +79,15 @@ def test_piece_stringification():
 def test_high_pieces():
     assert len(PIECES) == 16
     for i in range(8):
-        assert PIECES[i].is_(HIGH)
-        assert not PIECES[i].is_(LOW)
+        assert PIECES[i].has(HIGH)
+        assert not PIECES[i].has(LOW)
 
 
 def test_low_pieces():
     assert len(PIECES) == 16
     for i in range(9, 16):
-        assert PIECES[i].is_(LOW)
-        assert not PIECES[i].is_(HIGH)
+        assert PIECES[i].has(LOW)
+        assert not PIECES[i].has(HIGH)
 
 
 def test_invalid_placement_on_non_empty_position():

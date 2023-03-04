@@ -35,20 +35,20 @@ class Piece:
 
         self._traits = reduce(lambda x, y: x|y, traits)
 
-        if self.is_(HIGH) and self.is_(LOW) \
-            or self.is_(LIGHT) and self.is_(DARK) \
-            or self.is_(ROUND) and self.is_(SQUARE) \
-            or self.is_(SOLID) and self.is_(HOLLOW):
+        if self.has(HIGH) and self.has(LOW) \
+            or self.has(LIGHT) and self.has(DARK) \
+            or self.has(ROUND) and self.has(SQUARE) \
+            or self.has(SOLID) and self.has(HOLLOW):
             raise ValueError("invalid trait combination")
 
-    def is_(self, trait):
+    def has(self, trait):
         return self._traits & trait == trait
 
     def __eq__(self, piece):
         return piece is not None and self._traits == piece._traits
 
     def __repr__(self):
-        t = [Trait(x).name for x in TRAITS if self.is_(x)]
+        t = [Trait(x).name for x in TRAITS if self.has(x)]
         return f"Piece({t[0]}, {t[1]}, {t[2]}, {t[3]})"
 
 PIECES = [
@@ -77,7 +77,7 @@ class Game:
     def is_win(self):
         for trait in TRAITS:
             def matches(cell):
-                return cell is not None and cell.is_(trait)
+                return cell is not None and cell.has(trait)
 
             for i in range(4):
                 if all([matches(self._board[j][i]) for j in range(4)]):
