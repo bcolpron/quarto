@@ -114,10 +114,15 @@ class Board:
         self._available_pieces.remove(piece)
 
 class Game:
-    def __init__(self, player1_func, player2_func):
+
+    PLAYER_1_WINS = 1
+    PLAYER_2_WINS = 2
+    DRAW = 0
+
+    def __init__(self, player1, player2):
         self._board = Board()
-        self._player1 = player1_func
-        self._player2 = player2_func
+        self._player1 = player1
+        self._player2 = player2
         self._turn = choice(range(2))
 
     def next_player(self):
@@ -131,9 +136,9 @@ class Game:
             pos, p = player.play(p, self._board)
             self._board.place(p, *pos)
         if self._board.is_win():
-            print(f"player {player.name} wins")
+            return self.PLAYER_1_WINS if self._turn == 0 else self.PLAYER_2_WINS
         else:
-            print("draw")
+            return self.DRAW
 
 class Player:
     def __init__(self, name, func):
