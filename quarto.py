@@ -45,6 +45,19 @@ class Piece:
     def has(self, trait):
         return self._traits & trait == trait
 
+    def traits(self):
+        return (HIGH if self.has(HIGH) else LOW,
+                LIGHT if self.has(LIGHT) else DARK,
+                ROUND if self.has(ROUND) else SQUARE,
+                SOLID if self.has(SOLID) else HOLLOW)
+
+    def short_name(self):
+        index = (8 if self.has(LOW) else 0) \
+            + (4 if self.has(DARK) else 0) \
+            + (2 if self.has(SQUARE) else 0) \
+            + (1 if self.has(HOLLOW) else 0)
+        return "ABCDEFGHIJKLMNOP"[index]
+
     def __eq__(self, piece):
         return piece is not None and self._traits == piece._traits
 

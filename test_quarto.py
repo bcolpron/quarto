@@ -97,6 +97,31 @@ def test_piece_stringification():
     assert str(Piece(HIGH, LIGHT, ROUND, SOLID)) == "Piece(HIGH, LIGHT, ROUND, SOLID)"
     assert repr(Piece(HIGH, LIGHT, ROUND, SOLID)) == "Piece(HIGH, LIGHT, ROUND, SOLID)"
 
+
+def test_piece_traits():
+    assert Piece(HIGH, DARK, ROUND, HOLLOW).traits() == (HIGH, DARK, ROUND, HOLLOW)
+    assert Piece(LOW, LIGHT, SQUARE, SOLID).traits() == (LOW, LIGHT, SQUARE, SOLID)
+
+
+def test_piece_short_name():
+    assert Piece(HIGH, LIGHT, ROUND,  SOLID  ).short_name() == "A"
+    assert Piece(HIGH, LIGHT, ROUND,  HOLLOW ).short_name() == "B"
+    assert Piece(HIGH, LIGHT, SQUARE, SOLID  ).short_name() == "C"
+    assert Piece(HIGH, LIGHT, SQUARE, HOLLOW ).short_name() == "D"
+    assert Piece(HIGH, DARK,  ROUND,  SOLID  ).short_name() == "E"
+    assert Piece(HIGH, DARK,  ROUND,  HOLLOW ).short_name() == "F"
+    assert Piece(HIGH, DARK,  SQUARE, SOLID  ).short_name() == "G"
+    assert Piece(HIGH, DARK,  SQUARE, HOLLOW ).short_name() == "H"
+    assert Piece(LOW,  LIGHT, ROUND,  SOLID  ).short_name() == "I"
+    assert Piece(LOW,  LIGHT, ROUND,  HOLLOW ).short_name() == "J"
+    assert Piece(LOW,  LIGHT, SQUARE, SOLID  ).short_name() == "K"
+    assert Piece(LOW,  LIGHT, SQUARE, HOLLOW ).short_name() == "L"
+    assert Piece(LOW,  DARK,  ROUND,  SOLID  ).short_name() == "M"
+    assert Piece(LOW,  DARK,  ROUND,  HOLLOW ).short_name() == "N"
+    assert Piece(LOW,  DARK,  SQUARE, SOLID  ).short_name() == "O"
+    assert Piece(LOW,  DARK,  SQUARE, HOLLOW ).short_name() == "P"
+
+
 def test_high_pieces():
     assert len(PIECES) == 16
     for i in range(8):
