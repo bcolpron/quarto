@@ -142,12 +142,16 @@ class Game:
         self._turn = (self._turn + 1) % 2
         return self._player1 if self._turn == 0 else self._player2
 
-    def play(self):
+    def play(self, visualizer):
         p = choice(self._board.available_pieces())
         while(not self._board.is_end() and not self._board.is_win()):
             player = self.next_player()
             pos, p = player.play(p, self._board)
             self._board.place(p, *pos)
+            print(f"placed {p} at {pos}")
+            visualizer.update(self._board)
+            if visualizer.wait_for_input() is False:
+                raise RuntimeError("interrupted by user")
         if self._board.is_win():
             return self.PLAYER_1_WINS if self._turn == 0 else self.PLAYER_2_WINS
         else:
